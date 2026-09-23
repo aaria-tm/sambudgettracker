@@ -1100,3 +1100,131 @@ input:focus {
         font-size: 18px;
     }
 }
+/* ==============================
+   MOBILE ONLY FIX
+   Does NOT change desktop layout
+================================ */
+
+@media (max-width: 700px) {
+
+    html,
+    body {
+        width: 100%;
+        max-width: 100%;
+        overflow-x: hidden;
+    }
+
+    .main {
+        margin-left: 0 !important;
+        width: 100%;
+    }
+
+    .sidebar {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        top: auto;
+        width: 100%;
+        height: 68px;
+        padding: 6px 8px;
+        border-right: none;
+        border-top: 1px solid #e5e7eb;
+        z-index: 999;
+    }
+
+    .sidebar .logo,
+    .sidebar .profile,
+    .sidebar .wallet-level,
+    .sidebar .xp-section {
+        display: none;
+    }
+
+    .sidebar .nav {
+        width: 100%;
+        height: 100%;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 5px;
+    }
+
+    .sidebar .nav-item {
+        width: 100%;
+        min-width: 0;
+        padding: 6px 3px;
+        border: none;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: 2px;
+        background: transparent;
+        font-size: 10px;
+    }
+
+    .topbar {
+        width: 100%;
+        height: 65px;
+        padding: 0 15px;
+    }
+
+    .topbar h1 {
+        font-size: 18px;
+    }
+
+    .add-btn {
+        padding: 9px 12px;
+        font-size: 11px;
+    }
+
+    .page {
+        width: 100%;
+        padding: 18px 15px 90px;
+    }
+
+    .stats-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .content-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .friends-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .card {
+        width: 100%;
+    }
+
+    .modal {
+        width: calc(100% - 24px);
+        max-width: 450px;
+    }
+}
+
+
+/* Small phones */
+
+@media (max-width: 400px) {
+
+    .topbar {
+        padding: 0 12px;
+    }
+
+    .topbar h1 {
+        font-size: 16px;
+    }
+
+    .add-btn {
+        padding: 8px 10px;
+        font-size: 10px;
+    }
+
+    .page {
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+}
