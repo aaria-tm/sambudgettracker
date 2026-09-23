@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SplitQuest - Budget Tracker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+        <div class="logo">
+            <div class="logo-icon">₹</div>
+            <div>
+                <h2>SplitQuest</h2>
+                <span>Money made simple</span>
+            </div>
+        </div>
+
+        <div class="profile-box">
+            <div class="avatar" id="sidebarAvatar">🧑‍🚀</div>
+            <div>
+                <strong id="profileName">Your Wallet</strong>
+                <small>Budget Explorer</small>
+            </div>
+        </div>
+
+        <nav>
+            <button class="nav-btn active" onclick="showSection('dashboard', this)">
+                <span>⌂</span> Dashboard
+            </button>
+
+            <button class="nav-btn" onclick="showSection('friends', this)">
+                <span>♙</span> Friends
+            </button>
+
+            <button class="nav-btn" onclick="showSection('transactions', this)">
+                <span>◈</span> Transactions
+            </button>
+
+            <button class="nav-btn" onclick="showSection('profile', this)">
+                <span>⚙</span> My Profile
+            </button>
+        </nav>
+
+        <div class="sidebar-bottom">
+            <div class="level-card">
+                <div class="level-top">
+                    <span>Wallet Level</span>
+                    <b id="levelNumber">LVL 1</b>
+                </div>
+
+                <div class="xp-bar">
+                    <div id="xpFill"></div>
+                </div>
+
+                <small id="xpText">0 / 100 XP</small>
+            </div>
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN -->
+    <main class="main">
+
+        <!-- HEADER -->
+        <header class="topbar">
+            <div>
+                <span class="eyebrow">YOUR MONEY QUEST</span>
+                <h1 id="pageTitle">Dashboard</h1>
+            </div>
+
+            <button class="add-btn" onclick="openTransactionModal()">
+                + Add Transaction
+            </button>
+        </header>
+
+
+        <!-- DASHBOARD -->
+        <section id="dashboard" class="section active-section">
+
+            <div class="hero">
+                <div>
+                    <span class="hero-tag">TODAY'S MISSION</span>
+                    <h2>Keep your money<br><span>under control.</span></h2>
+                    <p>Track every split, payment and friendship balance.</p>
+                </div>
+
+                <div class="hero-illustration">
+                    <div class="coin coin1">₹</div>
+                    <div class="coin coin2">₹</div>
+                    <div class="coin coin3">₹</div>
+                    <div class="hero-character">🧑‍💻</div>
+                </div>
+            </div>
+
+
+            <!-- STATS -->
+            <div class="stats-grid">
+
+                <div class="stat-card purple">
+                    <div class="stat-icon">↗</div>
+                    <span>They Owe You</span>
+                    <h2 id="totalOwed">₹0</h2>
+                    <small>Money friends need to return</small>
+                </div>
+
+                <div class="stat-card green">
+                    <div class="stat-icon">✓</div>
+                    <span>You Owe</span>
+                    <h2 id="totalOwe">₹0</h2>
+                    <small>Your pending payments</small>
+                </div>
+
+                <div class="stat-card orange">
+                    <div class="stat-icon">◈</div>
+                    <span>Total Spent</span>
+                    <h2 id="totalSpent">₹0</h2>
+                    <small>Your recorded spending</small>
+                </div>
+
+                <div class="stat-card blue">
+                    <div class="stat-icon">♙</div>
+                    <span>Friends</span>
+                    <h2 id="totalFriends">0</h2>
+                    <small>People in your wallet</small>
+                </div>
+
+            </div>
+
+
+            <div class="dashboard-grid">
+
+                <!-- FRIEND BALANCES -->
+                <div class="panel">
+                    <div class="panel-header">
+                        <div>
+                            <span class="panel-label">YOUR CREW</span>
+                            <h2>Friend Balances</h2>
+                        </div>
+
+                        <button onclick="showSection('friends')">View all →</button>
+                    </div>
+
+                    <div id="dashboardFriends" class="friend-list">
+                    </div>
+                </div>
+
+
+                <!-- RECENT TRANSACTIONS -->
+                <div class="panel">
+                    <div class="panel-header">
+                        <div>
+                            <span class="panel-label">ACTIVITY</span>
+                            <h2>Recent Moves</h2>
+                        </div>
+                    </div>
+
+                    <div id="recentTransactions" class="transaction-list">
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- FRIENDS -->
+        <section id="friends" class="section">
+
+            <div class="section-heading">
+                <div>
+                    <span class="eyebrow">YOUR CREW</span>
+                    <h2>Friends & Balances</h2>
+                </div>
+
+                <button class="add-btn" onclick="openFriendModal()">
+                    + Add Friend
+                </button>
+            </div>
+
+            <div id="friendsGrid" class="friends-grid"></div>
+
+        </section>
+
+
+        <!-- TRANSACTIONS -->
+        <section id="transactions" class="section">
+
+            <div class="section-heading">
+                <div>
+                    <span class="eyebrow">MONEY MOVES</span>
+                    <h2>Transaction History</h2>
+                </div>
+
+                <button class="add-btn" onclick="openTransactionModal()">
+                    + Add Transaction
+                </button>
+            </div>
+
+            <div class="panel">
+
+                <div class="filter-row">
+
+                    <select id="filterFriend" onchange="renderTransactions()">
+                        <option value="all">All Friends</option>
+                    </select>
+
+                    <select id="filterType" onchange="renderTransactions()">
+                        <option value="all">All Transactions</option>
+                        <option value="spent">I Spent</option>
+                        <option value="received">I Received</option>
+                    </select>
+
+                </div>
+
+                <div id="allTransactions" class="full-transactions">
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- PROFILE -->
+        <section id="profile" class="section">
+
+            <div class="section-heading">
+                <div>
+                    <span class="eyebrow">PLAYER PROFILE</span>
+                    <h2>Your Wallet Identity</h2>
+                </div>
+            </div>
+
+            <div class="profile-page">
+
+                <div class="profile-avatar-container">
+                    <div id="bigAvatar" class="big-avatar">🧑‍🚀</div>
+                    <span>YOUR AVATAR</span>
+                </div>
+
+                <div class="profile-form">
+
+                    <label>Your Name</label>
+                    <input id="nameInput" placeholder="Enter your name">
+
+                    <label>Choose Avatar</label>
+
+                    <div class="avatar-options">
+                        <button onclick="selectAvatar('🧑‍🚀')">🧑‍🚀</button>
+                        <button onclick="selectAvatar('👩‍💻')">👩‍💻</button>
+                        <button onclick="selectAvatar('🧑‍🎨')">🧑‍🎨</button>
+                        <button onclick="selectAvatar('🦸')">🦸</button>
+                        <button onclick="selectAvatar('🧙')">🧙</button>
+                        <button onclick="selectAvatar('🥷')">🥷</button>
+                        <button onclick="selectAvatar('🤖')">🤖</button>
+                        <button onclick="selectAvatar('👽')">👽</button>
+                    </div>
+
+                    <button class="save-profile" onclick="saveProfile()">
+                        Save Profile
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<!-- FRIEND MODAL -->
+
+<div id="friendModal" class="modal">
+
+    <div class="modal-box">
+
+        <button class="close-btn" onclick="closeFriendModal()">×</button>
+
+        <span class="eyebrow">NEW FRIEND</span>
+        <h2>Add someone to your crew</h2>
+
+        <label>Friend Name</label>
+        <input id="friendName" placeholder="e.g. Rahul">
+
+        <label>Avatar</label>
+
+        <div class="friend-avatar-options">
+            <button onclick="selectFriendAvatar('👨')">👨</button>
+            <button onclick="selectFriendAvatar('👩')">👩</button>
+            <button onclick="selectFriendAvatar('🧑')">🧑</button>
+            <button onclick="selectFriendAvatar('👨‍💻')">👨‍💻</button>
+            <button onclick="selectFriendAvatar('👩‍💻')">👩‍💻</button>
+            <button onclick="selectFriendAvatar('🦸')">🦸</button>
+        </div>
+
+        <button class="primary-modal-btn" onclick="addFriend()">
+            Add Friend
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- TRANSACTION MODAL -->
+
+<div id="transactionModal" class="modal">
+
+    <div class="modal-box transaction-modal">
+
+        <button class="close-btn" onclick="closeTransactionModal()">×</button>
+
+        <span class="eyebrow">MONEY MOVE</span>
+        <h2>Record a transaction</h2>
+
+        <div class="transaction-type">
+
+            <button id="spentBtn" class="type-btn active" onclick="setTransactionType('spent')">
+                <span>↗</span>
+                I Spent
+                <small>Friend owes me</small>
+            </button>
+
+            <button id="receivedBtn" class="type-btn" onclick="setTransactionType('received')">
+                <span>↓</span>
+                I Received
+                <small>Friend paid me</small>
+            </button>
+
+        </div>
+
+
+        <label>Friend</label>
+
+        <select id="transactionFriend">
+            <option value="">Select friend</option>
+        </select>
+
+
+        <label>Amount</label>
+
+        <div class="amount-input">
+            <span>₹</span>
+            <input id="transactionAmount" type="number" min="1" placeholder="0">
+        </div>
+
+
+        <label>Date</label>
+
+        <input id="transactionDate" type="date">
+
+
+        <label>Note <span class="optional">Optional</span></label>
+
+        <input id="transactionNote" placeholder="Lunch, movie, cab...">
+
+
+        <button class="primary-modal-btn" onclick="addTransaction()">
+            Add Transaction
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- TOAST -->
+
+<div id="toast" class="toast">
+    Transaction added!
+</div>
+
+
+<script src="script.js"></script>
+
+</body>
+</html>
